@@ -55,79 +55,45 @@
 // }
 //
 // new NoteBook('notebook1')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-interface ITodo {
-    id:number,
-    title:string
-}
-
-class NoteBook {
-
-    private _todo:ITodo[]
-
-
-    constructor(private name:string) {
-        this._initMain()
+var NoteBook = /** @class */ (function () {
+    function NoteBook(name) {
+        this.name = name;
+        this._initMain();
     }
-
-    private _setTodoToLs():void {
-        localStorage.setItem(this.name, JSON.stringify(this._todo))
-        this._initTodos()
-}
-
-private _getTodoFromLS():void {
-        this._todo = JSON.parse(localStorage.getItem(this.name)) || []
-}
-
-    private _initMain():void {
-        this._initForm()
-        this._initTodos()
-    }
-
-    private _initTodos():void {
-        this._getTodoFromLS()
-        let todosDiv = document.querySelector('#todos') as HTMLDivElement
-        todosDiv.innerHTML = ''
-        this._todo.forEach(todo => {
-        let todoDiv = document.createElement('div')
-            todoDiv.innerHTML = `${todo.id}) ${todo.title}`
-            todosDiv.append(todoDiv)
-        })
-    }
-
-    private _initForm():void {
-        const form = document.forms['form'] as HTMLFormElement
-        form.onsubmit = (e) => {
-            e.preventDefault()
-            let input = e.target['title'] as HTMLInputElement
-            let id = this._todo.slice(-1)[0]?.id || 1
-            this._todo.push({id, title: input.value})
-            this._setTodoToLs()
-            form.reset()
-        }
-
-    }
-}
-
-new NoteBook('notebook1')
+    NoteBook.prototype._setTodoToLs = function () {
+        localStorage.setItem(this.name, JSON.stringify(this._todo));
+        this._initTodos();
+    };
+    NoteBook.prototype._getTodoFromLS = function () {
+        this._todo = JSON.parse(localStorage.getItem(this.name)) || [];
+    };
+    NoteBook.prototype._initMain = function () {
+        this._initForm();
+        this._initTodos();
+    };
+    NoteBook.prototype._initTodos = function () {
+        this._getTodoFromLS();
+        var todosDiv = document.querySelector('#todos');
+        todosDiv.innerHTML = '';
+        this._todo.forEach(function (todo) {
+            var todoDiv = document.createElement('div');
+            todoDiv.innerHTML = "".concat(todo.id, ") ").concat(todo.title);
+            todosDiv.append(todoDiv);
+        });
+    };
+    NoteBook.prototype._initForm = function () {
+        var _this = this;
+        var form = document.forms['form'];
+        form.onsubmit = function (e) {
+            var _a;
+            e.preventDefault();
+            var input = e.target['title'];
+            var id = ((_a = _this._todo.slice(-1)[0]) === null || _a === void 0 ? void 0 : _a.id) || 1;
+            _this._todo.push({ id: id, title: input.value });
+            _this._setTodoToLs();
+            form.reset();
+        };
+    };
+    return NoteBook;
+}());
+new NoteBook('notebook1');
